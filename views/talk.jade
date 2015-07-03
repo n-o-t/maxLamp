@@ -1,0 +1,101 @@
+extends layout
+
+
+block content
+	h1= title
+	p parle à #{brand}.
+	div.row
+		div.col-md-1
+			btn#talk(type='button' class='btn btn-danger') talk
+		div.col-md-1
+			btn#stop(type='button' class='btn btn-danger disabled') stop
+		div.col-md-10
+	div.row
+		div.col-md-12
+			#results
+
+	script.
+		$(document).ready(function() {
+			var final_transcript = '';
+			var recognizing = false;
+			var ignore_onend;
+			var start_timestamp;
+			var recognition = new webkitSpeechRecognition();
+			// Are we processing a short phrase or performing continuous dictation?
+			recognition.continuous = true; 
+			// Do we require interim results in addition to the final results?
+			recognition.interimResults = true;
+			// We speak The Queens English here, my good man
+			recognition.lang = 'fr'; 
+			// Kick off the Speech to Text recognition process
+			//recognition.start();
+
+			$('#talk').click(function(){
+				recognition.start();
+				$('#stop').removeClass("disabled");				
+			});
+			$('#stop').click(function(){
+				recognition.stop();
+				$('#stop').addClass("disabled");				
+			});
+			// Set up 
+			recognition.onstart = function(event){ 
+				console.log("onstart", event);
+			}
+
+			// Process parsed result
+			/*
+			recognition.onresult = function(event){ 
+				console.log("onresult", event);
+			}
+			*/
+			// Handle error
+			recognition.onerror = function(event){
+				console.log("onerror", event);
+			}
+
+			// Housekeeping after success or failed parsing
+			recognition.onend = function(){ 
+				console.log("onend");
+			}
+
+			recognition.onstart = function() {
+				recognizing = true;
+				showInfo('info_speak_now');
+			};
+			recognition.onerror = function(event) {
+				if (event.error == 'no-speech') {
+					showInfo('info_no_speech');
+					ignore_onend = true;
+				}
+				if (event.error == 'audio-capture') {
+					showInfo('info_no_microphone');
+					ignore_onend = true;
+				}
+				if (event.error == 'not-allowed') {
+					if (event.timeStamp - start_timestamp < 100) {
+						showInfo('info_blocked');
+					} else {
+						showInfo('info_denied');
+					}
+					ignore_onend = true;
+				}
+			};
+			recognition.onresult = function(event) {
+				var interim_transcript = '';
+				if (typeof(event.results) == 'undefined') {
+					recognition.onend = null;
+					recognition.stop();
+					upgrade();
+					return;
+				}
+				for (var i = event.resultIndex; i < event.results.length; ++i) {
+					if (event.results[i].isFinal) {
+					final_transcript += event.results[i][0].transcript;
+					} else {
+						interim_transcript += event.results[i][0].transcript;
+					}
+				}
+				$('#results').html(final_transcript);
+			};
+		});

@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1= title
+    p la météo avec #{brand}.
+    p la température actuelle à #{current_city} est de #{current_temp}° #{current_degree_type}.
+    div
+    img(src='#{current_image_url}')

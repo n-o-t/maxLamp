@@ -1,0 +1,81 @@
+extends layout
+- var status = #{status}
+
+block content
+	- var color = {currentColor : "#5367ce"}
+	h1= title
+	p gérez les options de #{brand}.
+	div.row#board-status
+		if status
+			div.status.col-md-4.alert.alert-success
+				span.info #{brand} est connecté
+				span(class="glyphicon glyphicon-thumbs-up pull-right")
+		else
+			div.status.col-md-4.alert.alert-danger
+				span.info #{brand} n'est pas connecté
+				span(class="glyphicon glyphicon-thumbs-down pull-right")
+	//div.row#socket-status
+	div.row
+		div.col-md-2
+			btn#test(type='button' class='btn btn-info') test connection 
+		div.col-md-2
+			btn#to-white(type='button' class='btn btn-info') set #{brand} to white
+		div.col-md-3
+			btn#to-begin(type='button' class='btn btn-info') set #{brand} to normal light blue
+		div.col-md-3
+			btn#colorpicker001(type='button' class='btn btn-info') set #{brand} to 
+				span#displayCurrentColor=color.currentColor
+			//input(type="text" id="colorpicker001" class="form-control" value="#5367ce")
+		div.col-md-2
+			btn#to-off(type='button' class='btn btn-info') set #{brand} off
+	script.
+		$(document).ready(function() {
+			
+			var now = new Date();
+			var socket = io();
+			//$('#socket-status').append(socket);
+			// When I've received 'robot connected' message from the socket.io server...
+			
+			socket.on('board command', function (data) {
+				data = data.data
+				//console.log(data);
+				// Send out a message to the server
+				//socket.emit('board command', { command: 'pas encore de commande' });
+				if (data == 'ready') {
+					$('#board-status span.glyphicon-thumbs-down').addClass('glyphicon-thumbs-up').removeClass('glyphicon-thumbs-down');
+					$('#board-status div').removeClass('alert-danger').addClass('alert-success');
+					$('#board-status span.info').text('#{brand} est connecté');
+					}
+			});
+			
+			$('#test').click(function(){
+				now = new Date();
+				socket.emit('board message', { msg: 'bt test cliqué le '+ now });
+				//$('#socket-status').append('1 click.');
+			});
+			$('#to-white').click(function(){
+				now = new Date();
+				socket.emit('board message', { msg: 'bt to-white cliqué le '+ now });
+				socket.emit('board command', { command: 'to-white' });
+				//$('#socket-status').append('1 click.');
+			});
+			$('#to-begin').click(function(){
+				now = new Date();
+				socket.emit('board message', { msg: 'bt to-white cliqué le '+ now });
+				socket.emit('board command', { command: 'to-begin' });
+				//$('#socket-status').append('1 click.');
+			});
+			// choose your color
+			$('#colorpicker001').colorpicker().on('changeColor.colorpicker', function(event){
+				console.log("changement de couleur");
+				var mycolor = event.color.toHex();
+				console.log(mycolor);
+				//socket.emit('board message', { msg: 'upadte couleur '+ now });
+				socket.emit('board-color-value', { colorValue: mycolor });
+				$('#displayCurrentColor').html(mycolor);
+			});
+			$('#to-off').click(function(){
+				socket.emit('board-color-value', { colorValue: "#000000" });
+			});
+			
+		});

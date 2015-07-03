@@ -1,0 +1,30 @@
+block header
+	nav(class='navbar navbar-inverse navbar-fixed-top navbar-lg')
+		div(class='container')
+			div(class='navbar-header')
+				button(type='button' class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
+					span(class="sr-only") Toggle navigation
+					span(class="icon-bar")
+					span(class="icon-bar")
+					span(class="icon-bar")
+				a(class="navbar-brand" href="/") #{brand}
+			div(id="navbar" class="collapse navbar-collapse")
+				ul(class="nav navbar-nav")
+					//if #{section}:"main"	
+					li(class=(section === 'main' ? 'active' : ''))
+						a(href="/") dashboard
+					li(class=(section === 'light-patterns' ? 'active' : ''))
+						a(href="light-patterns") light patterns
+					li(class=(section === 'meteo' ? 'active' : ''))
+						a(href="meteo") météo
+					li(class=(section === 'options' ? 'active' : ''))
+						a(href="options") options
+					//li(class=(section === 'talk' ? 'active' : ''))
+						a(href="talk") talk (testing...)
+					li(class=(section === 'notifications' ? 'active' : ''))
+						a(href="notifications") notifications		
+					//li
+						a|current : #{section}
+
+    
+					

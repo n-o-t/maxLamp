@@ -1,0 +1,162 @@
+extends layout
+block content
+	//- var sess = sess
+	div.row
+		h1= title
+		p gérez les notifications de #{brand}.
+	div.row.bg-primary										
+		div.col-md-3
+			btn(class="btn btn-default btn-lg" id="get-board-pattern")| get-board-pattern		
+		div.col-md-3
+			btn(class="btn btn-default btn-lg" id="send-notification-01")| notif #1
+		div.col-md-3
+			btn(class="btn btn-default btn-lg" id="send-notification-twitter")| notif twitter
+	div.row.bg-warning
+		div.col-md-2
+			btn(class="btn btn-default btn-lg" id="send-notification-pattern1")| notif pattern 1
+		div.col-md-2
+			btn(class="btn btn-default btn-lg" id="send-notification-pattern2")| notif pattern 2
+		div.col-md-2
+			btn(class="btn btn-default btn-lg" id="send-notification-pattern3")| notif pattern 3
+		div.col-md-2
+			btn(class="btn btn-default btn-lg" id="send-notification-pattern4")| notif pattern 4
+		div.col-md-2
+			btn(class="btn btn-default btn-lg" id="send-notification-pattern5")| notif pattern 5
+	div.row
+		div.col-md-12
+			span(class="small" id="show-pattern")|	
+	div.row
+		div.col-md-3
+			img(src="bootstrap/img/icons/svg/clocks.svg")
+		div(id="clock" class="form-group col-md-3")
+			btn(id="startCountdown" class="btn btn-primary btn-lg") start
+			btn(id="stopCountdown" class="btn btn-primary btn-lg") stop
+		div(id="clock" class="form-group col-md-3")
+			btn(id="pauseCountdown" class="btn btn-primary btn-lg") pause
+			btn(id="resetCountdown" class="btn btn-primary btn-lg") reset
+		div(id="clock" class="form-group col-md-3")
+			input(id="countdown_clock" value="00:02" class="form-control")
+	script.
+		$(document).ready(function() {
+			function rgb2hex(rgb){
+				rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+				return (rgb && rgb.length === 4) ? "#" +
+				  ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+				  ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+				  ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+			}
+
+			var socket = io();
+			//var now = new Date();
+			var notif_01 = ["rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)",
+							"rgb(255,0,245)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(255,0,245)",
+							"rgb(255,0,245)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(0,194,255)","rgb(255,0,245)",
+							"rgb(255,0,245)","rgb(255,168,0)","rgb(255,168,0)","rgb(255,168,0)","rgb(255,168,0)","rgb(255,168,0)","rgb(255,168,0)","rgb(255,0,245)",
+							"rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)","rgb(255,0,245)"
+							];
+			var notif_twitter_01  = ["rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)",
+									 "rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)",
+									 "rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)",
+									 "rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)",
+									 "rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)","rgb(0,172,237)"];
+
+			var notif_twitter_02  = ["rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)"];
+			var notif_twitter_03  = ["rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)",];
+			var notif_twitter_04  = ["rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)", "rgb(0,172,237)"];
+			
+			var notif_twitter_05  = ["rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)",
+									"rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)",
+									"rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)",
+									"rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)",
+									"rgb(0,172,237)", "rgb(0,172,237)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(255,255,255)", "rgb(0,172,237)", "rgb(0,172,237)"];
+
+			$('#get-board-pattern').click(function(){
+				socket.emit('get-board-pattern', { msg:  new Date()});
+				console.log(new Date());
+				//$("#show-pattern").html("hell");
+			});
+
+			$('#send-notification-01').click(function(){
+				socket.emit('board-notification', { pattern: notif_01});
+			});
+			$('#send-notification-pattern1').click(function(){
+				socket.emit('board-notification-test', { pattern: notif_twitter_01});
+			});
+			$('#send-notification-pattern2').click(function(){
+				socket.emit('board-notification-test', { pattern: notif_twitter_02});
+			});
+			$('#send-notification-pattern3').click(function(){
+				socket.emit('board-notification-test', { pattern: notif_twitter_03});
+			});
+			$('#send-notification-pattern4').click(function(){
+				socket.emit('board-notification-test', { pattern: notif_twitter_04});
+			});
+			$('#send-notification-pattern5').click(function(){
+				socket.emit('board-notification-test', { pattern: notif_twitter_05});
+			});			
+			$('#send-notification-twitter').click(function(){
+				socket.emit('board-notification-twitter', { pattern1: notif_twitter_01, pattern2: notif_twitter_02, pattern3: notif_twitter_03, pattern4: notif_twitter_04, pattern5: notif_twitter_05});
+			});
+			
+			socket.on('get-board-pattern', function(data){
+				$("#show-pattern").empty();
+				data = data.msg;
+				//console.log(data);
+				//$("#show-pattern").html("hell");
+				var tableTemp = '<table class="table-responsive">';
+				//$("#show-pattern").append("<table>");
+				for (x = 0; x < data.length ; x++){
+					if((x == 8) | (x == 16) | (x == 24)| (x == 32) ) {
+						tableTemp += "<tr>";
+						//$("#show-pattern").append("<tr>");
+					} 
+					//var temp = 
+					 tableTemp += '<td style="background-color:' + rgb2hex(data[x]) + '\"><span>"' + data[x]  + '",</span></td> ';
+					//$("#show-pattern").append('<td style="background-color:' + rgb2hex(data[x]) + '\">"' + data[x]  + '",</td> ');
+					if((x == 8) | (x == 16) | (x == 24)| (x == 32) ) {
+						//tableTemp += "</tr>";
+					} 
+				};
+				tableTemp  += "</table>";
+				$("#show-pattern").html(tableTemp);
+			});
+
+			/*
+			/  clock
+			*/
+			var timer = new Tock({
+				callback: function () {
+					$('#clockface').val(timer.msToTime(timer.lap()));
+				}
+			});
+			var countdown = Tock({
+				countdown: true,
+				interval: 250,
+				callback: function () {
+					console.log(countdown.lap() / 1000);
+					$('#countdown_clock').val(timer.msToTime(countdown.lap()));
+				},
+				complete: function () {
+					console.log('end');
+					//alert("Time's up!");
+					socket.emit('board-notification', { pattern: notif_01});
+				}
+			});
+
+			$('#startCountdown').on('click', function () {
+				countdown.start($('#countdown_clock').val());
+			});
+
+			$('#pauseCountdown').on('click', function () {
+				countdown.pause();
+			});
+
+			$('#stopCountdown').on('click', function () {
+				countdown.stop();
+			});
+
+			$('#resetCountdown').on('click', function () {
+				countdown.stop();
+				$('#countdown_clock').val('00:02');
+			});
+		});

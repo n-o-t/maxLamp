@@ -1,0 +1,314 @@
+extends layout
+block content
+	//- var sess = sess
+	div.row
+		h1= title
+		p gérez les light patterns de #{brand}.
+		p.pattern.small
+		p.sentPattern
+	div.row
+		div.table-responsive.col-md-12
+			table.table.table-striped.table-bordered(id='lightTable')
+				span(id='spanId' + counter)
+	div.row										
+		div.col-md-3
+			btn(class="btn btn-primary btn-lg" id="send-pattern")|send pattern
+	div.row
+		div.col-md-12
+			| 
+	
+	script.
+		$(document).ready(function() {
+
+			var now = new Date();
+			var socket = io();
+
+			socket.on('board command', function (data) {
+				data = data.data
+				if (data == 'ready') {
+					$('#board-status span.glyphicon-thumbs-down').addClass('glyphicon-thumbs-up').removeClass('glyphicon-thumbs-down');
+					$('#board-status div').removeClass('alert-danger').addClass('alert-success');
+					$('#board-status span.info').text('#{brand} est connecté');
+					}
+			});
+			
+			socket.on('send-color-pattern', function(data){
+				data = data.stockPattern;
+				alert(data);
+			});
+			
+			for (x = 0; x < 5; x++){
+				//var colorpickerName = $('#colorpicker' + counter);
+				//console.log(colorpickerName);
+				var output = '<tr>';
+				for (y = 0; y < 8; y++ ) {
+					counter = y+1 + x*8
+					//console.log(counter);
+					btnId = 'colorpicker' + counter;
+					output += "<td class='text-center' id='tdId_"+counter+"'>";
+					//$this = output += "<btn type='button' id='"+btnId+"'class='btn btn-default'> set color ";
+					$this = output += "<input type='input' id='"+btnId+"'class='form-control input-sm'>";
+					output +="</btn></td>";
+					//btnId
+				}
+				$('#lightTable').append(output);
+				$('#lightTable').append('</tr>');
+
+				/**
+				 * create loop function to make that shit dynamic.
+				 */
+				
+				$('#colorpicker1').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_1').css('background-color', mycolor);				
+				});
+
+				$('#colorpicker2').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_2').css('background-color', mycolor);
+				});
+
+				$('#colorpicker3').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_3').css('background-color', mycolor);
+				});
+
+				$('#colorpicker4').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_4').css('background-color', mycolor);
+				});
+
+				$('#colorpicker5').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_5').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker6').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_6').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker7').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_7').css('background-color', mycolor);
+				});	
+				
+				$('#colorpicker8').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_8').css('background-color', mycolor);
+				});
+
+				$('#colorpicker9').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_9').css('background-color', mycolor);
+				});
+
+				$('#colorpicker10').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_10').css('background-color', mycolor);
+				});
+
+				$('#colorpicker11').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_11').css('background-color', mycolor);
+				});
+
+				$('#colorpicker12').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_12').css('background-color', mycolor);
+				});
+
+				$('#colorpicker13').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_13').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker14').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_14').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker15').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_15').css('background-color', mycolor);
+				});	
+				
+				$('#colorpicker16').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_16').css('background-color', mycolor);
+				});
+
+				$('#colorpicker17').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_17').css('background-color', mycolor);
+				});
+
+				$('#colorpicker18').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_18').css('background-color', mycolor);
+				});
+
+				$('#colorpicker19').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_19').css('background-color', mycolor);
+				});
+
+				$('#colorpicker20').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_20').css('background-color', mycolor);
+				});
+
+				$('#colorpicker21').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_21').css('background-color', mycolor);
+				});
+
+				$('#colorpicker22').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_22').css('background-color', mycolor);
+				});
+
+				$('#colorpicker23').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_23').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker24').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_24').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker25').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_25').css('background-color', mycolor);
+				});	
+				
+				$('#colorpicker26').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_26').css('background-color', mycolor);
+				});
+
+				$('#colorpicker27').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_27').css('background-color', mycolor);
+				});
+
+				$('#colorpicker28').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_28').css('background-color', mycolor);
+				});
+
+				$('#colorpicker29').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_29').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker30').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_30').css('background-color', mycolor);
+				});
+
+				$('#colorpicker31').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_31').css('background-color', mycolor);
+				});
+
+				$('#colorpicker32').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_32').css('background-color', mycolor);
+				});
+
+				$('#colorpicker33').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_33').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker34').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_34').css('background-color', mycolor);
+				});	
+
+				$('#colorpicker35').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_35').css('background-color', mycolor);
+				});	
+				
+				$('#colorpicker36').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_36').css('background-color', mycolor);
+				});
+
+				$('#colorpicker37').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_37').css('background-color', mycolor);
+				});
+
+				$('#colorpicker38').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_38').css('background-color', mycolor);
+				});
+
+				$('#colorpicker39').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_39').css('background-color', mycolor);
+				});
+
+				$('#colorpicker40').colorpicker().on('changeColor.colorpicker', function(event){
+					var mycolor = event.color.toHex();
+					$('#tdId_40').css('background-color', mycolor);
+				});
+			}
+			
+			$('#send-pattern').click(function(){
+				var pattern = [];
+				$( "td" ).each(function( index ) {
+					var value = $( this ).css('background-color');
+					//console.log( index + ": " + $( this ).css('background-color') );
+					pattern.push(value);
+				});
+				socket.emit('board-color-pattern', { colorPattern:  pattern});
+				//console.log(pattern[1]);
+
+				//localStorage['sentPattern'] = JSON.stringify(pattern); 
+			});
+
+
+			//var sentPattern = JSON.parse(sentPatternString);
+			//var sentPattern = localStorage["sentPattern"];
+			//var sentPatternjson = JSON.parse(sentPattern);
+			function colorTable(sentPattern) {
+
+				//var sentPatternjson = JSON.parse(localStorage["sentPattern"]);
+				//console.log($.type(sentPatternjson));
+				//console.log(sentPatternjson[1]);
+				for (x = 0; x < sentPattern.length; x++){
+					//console.log(x + 1);
+					var counter = x +1;
+					//console.log(counter);
+					var tdId = '#tdId_' + counter;
+					var tdInput = '#colorpicker' + counter;
+					//console.log(tdId);
+					//var sentPatternjsontoHex = sentPatternjson[x+1];
+					//var hex =  rgb2hex(sentPatternjsontoHex);
+					//$(tdId).append("hhhhh");
+					var value = sentPattern[x];
+					//var hexValue = value.toHex();
+					//console.log($(tdId));
+					$(tdId).css('background-color', value );
+					$(tdInput).attr('value', value);
+					
+					//console.log('sentPatternjson = ' + sentPatternjson[x]);
+				}
+
+			}
+			socket.emit('get-board-pattern', { msg:  new Date()});
+			socket.on('get-board-pattern', function(data){
+				data = data.msg;
+				console.log(data);
+				colorTable(data);
+				//localStorage['sentPattern'] = JSON.stringify(data); 
+			});
+			
+			
+			
+		});
