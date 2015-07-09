@@ -8,6 +8,5 @@ what's in ?
 to do :
 - enable user to create its own color pattern
 - create notifications (twitter, fb, motion detected on a camera) and associate color patterns to notifications
-
-re write all in angular or react.js
+- re write all in angular or react.js
 
