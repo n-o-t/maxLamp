@@ -2,7 +2,6 @@ var express = require('express');
 var session = require('express-session');
 var socket_io    = require( "socket.io" );
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -12,6 +11,7 @@ var colors = require('colors');
 var every = require('every-moment');
 var wait = require('wait-one-moment');
 var Twitter = require('twitter');
+var favicon = require('serve-favicon');
 
 require('./config/config.js');
 
