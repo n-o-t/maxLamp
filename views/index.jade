@@ -1,6 +1,29 @@
 extends layout
 
 block content
-	div
-		h1= title
-		p salut, vous êtes avec #{brand}, c'est la fête.
+	div.row
+		div.col-md-12
+			h1= title
+			p salut, vous êtes avec #{brand}.
+	div.row
+		div.col-md-1
+		div(class="col-md-2 fabBtn btnColorYellow text-center" id="")
+			div.fabBtnTop
+				h4 light patterns
+				p edit your own light patterns to set your mood or to set notifications
+			btn(class="btn btn-info btn-lg")
+				a(href="light-patterns") edit now!
+		div.col-md-1
+		div(class="col-md-2 fabBtn btnColorOrange text-center" id="")
+			div.fabBtnTop
+				h4 options
+				p check status and that kind of stuff
+			btn(class="btn btn-info btn-lg") 
+				a(href="options") check now!
+		div.col-md-1
+		div(class="col-md-2 fabBtn btnColorRed text-center" id="")
+			div.fabBtnTop
+				h4 notifications
+				p manage services notifications and set pomodoro timer
+			btn(class="btn btn-info btn-lg")
+				a(href="notifications") manage now!
