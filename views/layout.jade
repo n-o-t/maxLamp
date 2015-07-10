@@ -1,7 +1,7 @@
 doctype html
 html(lang="fr")
 	head
-		title= title
+		title| max - #{title}
 		//meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no")
 		link(rel='stylesheet', href='/stylesheets/style.css')
 		link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
@@ -15,7 +15,7 @@ html(lang="fr")
 		script(src='bootstrap/js/bootstrap-colorpicker.min.js')
 		script(src='javascripts/tock.min.js')
 				
-	body(ng-controller="maxLampData")
+	body()
 		include ./includes/header.jade
 		div#main.container-fluid
 			block content
