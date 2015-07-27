@@ -33,6 +33,27 @@
 </ul>
 
 <h2>
+<a id="how-does-it-work-" class="anchor" href="#how-does-it-work-" aria-hidden="true"><span class="octicon octicon-link"></span></a>how does it work ?</h2>
+
+<blockquote>
+<blockquote>
+<p>a matrix of 5x8 individually addressable rgb leds are controlled by a web app.</p>
+
+<ul>
+<li>an 8x5 led matrix is plugged on a arduino Uno flashed with Firmata firmware.</li>
+<li>the arduino board is connected to the raspi with a usb cable (data communication only)
+(important : arduino should have is own power supply, DO NOT rely on the raspi to do that, it works till a certain amount of led brightness)</li>
+<li>a raspberry pi hosts the app running node.js and express</li>
+<li>the serial port connection is handled by johnny-five (using npm serialport)</li>
+<li>real time data communication is handled by socket.io</li>
+</ul>
+</blockquote>
+</blockquote>
+
+<p>see Adafruit's page on NeoPixel leds
+<a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/">https://learn.adafruit.com/adafruit-neopixel-uberguide/</a></p>
+
+<h2>
 <a id="to-do-" class="anchor" href="#to-do-" aria-hidden="true"><span class="octicon octicon-link"></span></a>to do :</h2>
 
 <ul>
