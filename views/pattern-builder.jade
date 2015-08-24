@@ -1,0 +1,61 @@
+extends layout
+
+block content
+	div.row
+		div.col-md-12
+			h1= title
+			p créer des patterns pour #{brand}.
+	div.row
+		div#myMatrix
+
+
+	script.
+		$(document).ready(function() {
+
+
+			var pattern = [];
+
+			function getDot () {
+				$(".cell").each(function(index){
+					pattern.push= $('this').css('background-color');
+				})
+			}
+
+
+			function getPattern() {
+				$(".cell").each(function(index){
+					console.log( index + ": " + $( this ).css('background-color'));
+				})
+			}
+
+			function createMatrix(target, txtclass, hue, count, luminosity) {
+				$(target).empty();
+					var tableTemp = '<table class="table-responsive ' + txtclass + '">';
+					var myColor = randomColor({hue: hue, count: count, luminosity: luminosity});
+					for (x = 0; x < 40 ; x++){
+
+						if((x == 8) | (x == 16) | (x == 24)| (x == 32) ) {
+							tableTemp += "<tr>";
+						} 
+						 tableTemp += '<td id="cell_' + x+ '" class="cell" style="background-color:'+myColor[x]+'"><small>' + x  + '</small></td> ';
+						if((x == 8) | (x == 16) | (x == 24)| (x == 32) ) {
+
+						} 
+					};
+					tableTemp  += "</table>";
+					$(target).html(tableTemp);
+			}		
+			createMatrix(myMatrix, "cell", 'pink', 40, 'bright');
+			/*	
+				https://github.com/davidmerfield/randomColor
+				Hue – Controls the hue of the generated color. You can pass a string representing a color name: red, orange, yellow, green, blue, purple, pink and monochrome are currently supported. + random
+				Luminosity – Controls the luminosity of the generated color. You can specify a string containing bright, light or dark. + random
+				Count – An integer which specifies the number of colors to generate.
+				Seed - An integer which when passed will cause randomColor to return the same color each time.
+				Format – A string which specifies the format of the generated color. Possible values are rgb, rgbArray, hsl, hslArray and hex (default).
+
+			*/
+			getDot();
+			getPattern();
+
+		});

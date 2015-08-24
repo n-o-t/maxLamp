@@ -1,0 +1,57 @@
+extends layout
+
+block content
+	div.row
+		div.col-md-12
+			h1= title
+			p here you can choose some presets for #{brand}.
+	div.row
+		div.col-md-12
+			btn(id="send-mood-orange" class="btn btn-primary btn-lg") orange
+			btn(id="send-mood-nature" class="btn btn-primary btn-lg") nature
+			btn(id="send-mood-funDark" class="btn btn-primary btn-lg") fun dark
+
+	
+	script.
+		$(document).ready(function() {
+			var now = new Date();
+			var socket = io();
+
+
+			var pattern_orange = [
+									"rgb(110, 56, 0)", "rgb(110, 56, 0)", "rgb(110, 56, 0)", "rgb(110, 56, 0)", "rgb(110, 56, 0)", "rgb(110, 56, 0)", "rgb(110, 56, 0)", "rgb(110, 56, 0)",
+									"rgb(241, 158, 72)", "rgb(241, 158, 72)", "rgb(241, 158, 72)", "rgb(241, 158, 72)", "rgb(241, 158, 72)", "rgb(241, 158, 72)", "rgb(241, 158, 72)", "rgb(241, 158, 72)", 
+									"rgb(238, 121, 0)", "rgb(238, 121, 0)", "rgb(238, 121, 0)", "rgb(238, 121, 0)", "rgb(238, 121, 0)", "rgb(238, 121, 0)", "rgb(238, 121, 0)", "rgb(238, 121, 0)", 
+									"rgb(110, 72, 33)", "rgb(110, 72, 33)", "rgb(110, 72, 33)", "rgb(110, 72, 33)", "rgb(110, 72, 33)", "rgb(110, 72, 33)", "rgb(110, 72, 33)", "rgb(110, 72, 33)", 
+									"rgb(187, 95, 0)", "rgb(187, 95, 0)", "rgb(187, 95, 0)", "rgb(187, 95, 0)", "rgb(187, 95, 0)", "rgb(187, 95, 0)", "rgb(187, 95, 0)", "rgb(187, 95, 0)"
+								];
+			var pattern_nature = [
+									"rgb(201, 201, 86)", "rgb(201, 201, 86)", "rgb(201, 201, 86)", "rgb(201, 201, 86)", "rgb(201, 201, 86)", "rgb(201, 201, 86)", "rgb(201, 201, 86)", "rgb(201, 201, 86)", 
+									"rgb(115, 191, 156)", "rgb(115, 191, 156)","rgb(115, 191, 156)","rgb(115, 191, 156)","rgb(115, 191, 156)","rgb(115, 191, 156)","rgb(115, 191, 156)","rgb(115, 191, 156)", 
+									"rgb(220, 245, 205)", "rgb(220, 245, 205)","rgb(220, 245, 205)","rgb(220, 245, 205)","rgb(220, 245, 205)","rgb(220, 245, 205)","rgb(220, 245, 205)","rgb(220, 245, 205)",
+									"rgb(242, 240, 206)", "rgb(242, 240, 206)","rgb(242, 240, 206)","rgb(242, 240, 206)","rgb(242, 240, 206)","rgb(242, 240, 206)","rgb(242, 240, 206)","rgb(242, 240, 206)",
+									"rgb(249, 240, 132)","rgb(249, 240, 132)","rgb(249, 240, 132)","rgb(249, 240, 132)","rgb(249, 240, 132)","rgb(249, 240, 132)","rgb(249, 240, 132)","rgb(249, 240, 132)"
+								];
+			var pattern_funDark = [
+									"rgb(201, 198, 198)","rgb(201, 198, 198)","rgb(201, 198, 198)","rgb(201, 198, 198)","rgb(201, 198, 198)","rgb(201, 198, 198)","rgb(201, 198, 198)","rgb(201, 198, 198)",
+									"rgb(0, 222, 255)","rgb(0, 222, 255)","rgb(0, 222, 255)","rgb(0, 222, 255)","rgb(0, 222, 255)","rgb(0, 222, 255)","rgb(0, 222, 255)","rgb(0, 222, 255)",
+									"rgb(121, 190, 0)","rgb(121, 190, 0)","rgb(121, 190, 0)","rgb(121, 190, 0)","rgb(121, 190, 0)","rgb(121, 190, 0)","rgb(121, 190, 0)","rgb(121, 190, 0)",
+									"rgb(255, 189, 0)","rgb(255, 189, 0)","rgb(255, 189, 0)","rgb(255, 189, 0)","rgb(255, 189, 0)","rgb(255, 189, 0)","rgb(255, 189, 0)","rgb(255, 189, 0)",
+									"rgb(255, 102, 0)","rgb(255, 102, 0)","rgb(255, 102, 0)","rgb(255, 102, 0)","rgb(255, 102, 0)","rgb(255, 102, 0)","rgb(255, 102, 0)","rgb(255, 102, 0)",
+								];
+							
+
+			$('#send-mood-orange').click(function(){
+				socket.emit('board-color-pattern', { colorPattern:  pattern_orange});
+				//console.log(pattern_orange);
+			});
+			$('#send-mood-nature').click(function(){
+				socket.emit('board-color-pattern', { colorPattern:  pattern_nature});
+				//console.log(pattern_orange);
+			});
+			$('#send-mood-funDark').click(function(){
+				socket.emit('board-color-pattern', { colorPattern:  pattern_funDark});
+				//console.log(pattern_orange);
+			});
+
+		});	

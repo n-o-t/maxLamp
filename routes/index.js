@@ -12,7 +12,7 @@ var brand = 'max'; // nom générique du produit
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'dashboard ', brand: brand, section: 'main' });
+  res.render('index', { title: ' ', brand: brand, section: 'main' });
 });
 
 /* GET meteo page. */
@@ -39,6 +39,11 @@ router.get('/light-patterns', function(req, res, next) {
   res.render('lightpatterns', { title: 'light patterns ', brand: brand, section: 'light-patterns'});
 });
 
+/* GET moods page. */
+router.get('/moods', function(req, res, next) {
+  res.render('moods', { title: 'preset moods ', brand: brand, section: 'moods'});
+});
+
 /* GET options page. */
 router.get('/options', function(req, res, next) {
 	res.render('options', { title: 'options ', brand: brand, section: 'options'});
@@ -52,6 +57,16 @@ router.get('/talk', function(req, res, next) {
 /* GET notifications page. */
 router.get('/notifications', function(req, res, next) {
 	res.render('notifications', { title: 'notifications ', brand: brand, section: 'notifications'});
+});
+
+/* GET pattern builder page. */
+router.get('/pattern-builder', function(req, res, next) {
+	res.render('pattern-builder', { title: 'pattern builder ', brand: brand, section: 'pattern builder'});
+});
+
+/* GET bvg notitifcation page. */
+router.get('/bvg', function(req, res, next) {
+	res.render('bvg', { title: 'bvg', brand: brand, section: 'bvg'});
 });
 
 module.exports = router;

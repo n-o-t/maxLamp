@@ -13,8 +13,17 @@ block header
 					//if #{section}:"main"	
 					li(class=(section === 'main' ? 'active' : ''))
 						a(href="/") dashboard
-					li(class=(section === 'light-patterns' ? 'active' : ''))
-						a(href="light-patterns") light patterns
+					li(class="dropdown")
+						a(href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") patterns
+						ul(class="dropdown-menu")
+							li(class=(section === 'light-patterns' ? 'active' : ''))
+								a(href="light-patterns") light patterns
+							li(role="separator" class="divider")
+							li(class=(section === 'pattern-builder' ? 'active' : ''))
+								a(href="pattern-builder") pattern builder	
+							li(role="separator" class="divider")
+							li(class=(section === 'moods' ? 'active' : ''))
+								a(href="moods") moods
 					li(class=(section === 'meteo' ? 'active' : ''))
 						a(href="meteo") météo
 					li(class=(section === 'options' ? 'active' : ''))
@@ -22,7 +31,9 @@ block header
 					//li(class=(section === 'talk' ? 'active' : ''))
 						a(href="talk") talk (testing...)
 					li(class=(section === 'notifications' ? 'active' : ''))
-						a(href="notifications") notifications		
+						a(href="notifications") notifications
+					//li(class=(section === 'bvg' ? 'active' : ''))
+						a(href="bvg") bvg	
 					//li
 						a|current : #{section}
 

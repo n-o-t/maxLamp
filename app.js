@@ -18,7 +18,7 @@ require('./config/config.js');
 // Express
 var app = express();
 
-// Socket.io
+// Socket.io //
 var io  = socket_io();
 app.io  = io;
 
@@ -72,18 +72,72 @@ board.on("ready", function() {
   io.emit('board command', { data: 'ready' });
 
   
+  
+
+
+
+
 
   strip = new pixel.Strip({
     data: 6,
-    length: 40,
+    length: 51,
     board: this
   });
   this.repl.inject({ strip: strip});    
 
-  strip.color("rgb(0, 15, 10)");
-  strip.show();
+  var boardStatusPixel = strip.pixel(40);
+  var IndoorMeteoStatusPixel = strip.pixel(41);
 
-  
+  // sensor temperature
+  var temperature = new five.Temperature({
+    controller: "LM35",
+    pin: "A5",
+    freq:2000
+    
+  });
+
+  temperature.on("change", function(err, data) {
+    data.celsius = data.celsius.toFixed(2);
+    switch(true) {
+        case (data.celsius < 0 ): 
+        console.log("moins de 0°");
+        IndoorMeteoStatusPixel.color("#328BD9");
+        strip.show();
+        break;
+        case (data.celsius >0  && data.celsius < 10): 
+        IndoorMeteoStatusPixel.color("#5EBAF2");
+        strip.show();
+        console.log("plus de 0°");
+        break;
+        case (data.celsius > 10 && data.celsius < 20): 
+        IndoorMeteoStatusPixel.color("#F2CF1D"); 
+        strip.show();
+        console.log("entre 10 et 20°");
+        break;
+        case (data.celsius > 20 && data.celsius < 30): 
+        IndoorMeteoStatusPixel.color("#ff9900"); 
+        strip.show();
+        console.log("entre 20 et 30°");
+        break;
+        case (data.celsius  > 30): 
+        IndoorMeteoStatusPixel.color("#F20000"); 
+        strip.show();
+        console.log("plus de 30°");
+        break;
+    }   
+    console.log("celsius: %d", data.celsius);
+    //console.log("fahrenheit: %d", data.fahrenheit);
+    //console.log("kelvin: %d", data.kelvin);
+    io.emit('sensor_temperature', { data: data.celsius });
+  });
+
+  //stripMatrix = [strip.pixel(0), ]
+
+  //strip.color("rgb(0, 15, 10)");
+  //strip.show();
+
+  boardStatusPixel.color("#00ff00");
+  strip.show();
 
   var timer = every(2, 'second', function() {
     io.emit('board command', { data: 'ready' });
@@ -114,6 +168,14 @@ board.on("ready", function() {
   };
 
   //
+
+  function colorMatrix(color) {
+    for (var i = 0; i < stripLength; i++) {
+      
+      strip.pixel(i).color(color);
+    };
+    strip.show();
+  };
 
   function showStrip(pattern) {
     for (var i = 0; i < pattern.length; i++) {
@@ -313,13 +375,13 @@ board.on("ready", function() {
       switch(data.command) {
         case 'to-white':
         console.log("on est dans to-white");
-        strip.color("rgb(199, 199, 199)");
-        strip.show();
+        colorMatrix("#ffffff");
         break;
         case 'to-begin' :
         console.log('on est dans to begin');
-        strip.color("rgb(0,15,10)");
-        strip.show();
+        colorMatrix("rgb(0,15,10)");
+        //strip.color("rgb(0,15,10)");
+        //strip.show();
         break;
         //console.log(strip);
       }
@@ -332,14 +394,15 @@ board.on("ready", function() {
     socket.on('board-color-value', function (data) {
       //console.log(data.colorValue + "from app.js");
       var colorValue = data.colorValue;
-      strip.color(colorValue);
-      strip.show();
+       colorMatrix(colorValue); 
+      //strip.color(colorValue);
+      //strip.show();
       //return pattern;
     });
 
     socket.on('board-color-pattern', function (data) {
       pattern = data.colorPattern;
-      //console.log(pattern + " from board-color-pattern in app.js");
+      console.log(pattern + " from board-color-pattern in app.js");
       app.locals.pattern = pattern;
       showStrip(pattern);
     });
@@ -392,6 +455,18 @@ board.on("ready", function() {
     });
 
   }); // end socket
+  
+
+  /*
+   *
+   * INITIATE 
+   *
+   *
+   */
+
+  colorMatrix("rgb(0, 15, 10)");
+
+ 
 
 });
 

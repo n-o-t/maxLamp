@@ -16,6 +16,9 @@ block content
 				span(class="glyphicon glyphicon-thumbs-down pull-right")
 	//div.row#socket-status
 	div.row
+		div.col-md-12
+			span(id="sensor_temperature")
+	div.row
 		div.col-md-2
 			btn#test(type='button' class='btn btn-info') test connection 
 		div.col-md-2
@@ -48,6 +51,13 @@ block content
 					}
 			});
 			
+			socket.on('sensor_temperature', function (data) {
+				data = data.data;
+				//console.log(data);
+				//sensor_temperature;
+				$('#sensor_temperature').text('La température de #{brand} est de '+data+'°');
+			});
+
 			$('#test').click(function(){
 				now = new Date();
 				socket.emit('board message', { msg: 'bt test cliqué le '+ now });
