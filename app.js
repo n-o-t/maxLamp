@@ -72,11 +72,6 @@ board.on("ready", function() {
   io.emit('board command', { data: 'ready' });
 
   
-  
-
-
-
-
 
   strip = new pixel.Strip({
     data: 6,

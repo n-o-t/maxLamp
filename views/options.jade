@@ -4,15 +4,15 @@ extends layout
 block content
 	- var color = {currentColor : "#5367ce"}
 	h1= title
-	p gérez les options de #{brand}.
+	p  #{brand} global options
 	div.row#board-status
 		if status
 			div.status.col-md-4.alert.alert-success
-				span.info #{brand} est connecté
+				span.info #{brand} is connected
 				span(class="glyphicon glyphicon-thumbs-up pull-right")
 		else
 			div.status.col-md-4.alert.alert-danger
-				span.info #{brand} n'est pas connecté
+				span.info #{brand} is not connected
 				span(class="glyphicon glyphicon-thumbs-down pull-right")
 	//div.row#socket-status
 	div.row
@@ -47,7 +47,7 @@ block content
 				if (data == 'ready') {
 					$('#board-status span.glyphicon-thumbs-down').addClass('glyphicon-thumbs-up').removeClass('glyphicon-thumbs-down');
 					$('#board-status div').removeClass('alert-danger').addClass('alert-success');
-					$('#board-status span.info').text('#{brand} est connecté');
+					$('#board-status span.info').text('#{brand} is connected');
 					}
 			});
 			
@@ -55,7 +55,7 @@ block content
 				data = data.data;
 				//console.log(data);
 				//sensor_temperature;
-				$('#sensor_temperature').text('La température de #{brand} est de '+data+'°');
+				$('#sensor_temperature').text('indoor temperature near #{brand} is '+data+'°');
 			});
 
 			$('#test').click(function(){
